@@ -80,6 +80,13 @@ return [
     'aliases' => [
         // ...
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+    ],
+    'providers' => [
+        /*
+         * Package Service Providers...
+         */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
     'locale' => env('APP_LOCALE', 'en'),
 

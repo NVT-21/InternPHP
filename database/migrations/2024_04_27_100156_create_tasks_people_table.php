@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user1s', function (Blueprint $table) {
+        Schema::create('tasks_people', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->string('password');
-            $table->boolean('is_active')->default(true);
+            $table->unsignedBigInteger('task_id');
             $table->unsignedBigInteger('person_id');
-            $table->timestamp('updated_at')->nullable();
+            $table->timestamps();
+
+            // Define foreign keys
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
             $table->foreign('person_id')->references('id')->on('people')->onDelete('cascade');
-            $table->rememberToken();
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user1s');
+        Schema::dropIfExists('task_people');
     }
 };

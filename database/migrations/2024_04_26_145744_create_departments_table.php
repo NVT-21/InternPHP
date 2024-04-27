@@ -11,9 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('people', function (Blueprint $table) {
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id();
+            $table->string('code');
+            $table->string('name');
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->unsignedBigInteger('company_id');
+            $table->foreign('parent_id')->references('id')->on('departments')->onDelete('cascade');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -22,9 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('people', function (Blueprint $table) {
-            $table->dropForeign(['company_id']); // Xóa khóa ngoại trước khi xóa cột
-            $table->dropColumn('company_id');
-        });
+        Schema::dropIfExists('departments');
     }
 };

@@ -5,22 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Person extends Model
+class Project extends Model
 {
     use HasFactory;
-    protected $fillable = ['full_name', 'gender', 'birthdate', 'phone_number', 'address'];
-
-    public function user()
+    protected $fillable = ['code', 'name', 'description', 'company_id'];
+    public function people()
     {
-        return $this->hasOne(User1::class,'person_id');
+        return $this->belongsToMany(Person::class, 'projects_people')->withTimestamps();
     }
+
     public function company()
     {
         return $this->belongsTo(Company::class);
-    }
-    public function projects()
-    {
-        return $this->belongsToMany(Project::class, 'projects_people');
     }
     public function tasks()
     {

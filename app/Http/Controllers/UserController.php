@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User1::find(1)->person;
+        $users = User1::find()->person;
         return view('users.indexUser', compact('users'));
     }
 

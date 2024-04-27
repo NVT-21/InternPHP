@@ -65,8 +65,14 @@ class CompanyController extends Controller
 
     public function edit($id)
     {
-        $company = Company::findOrFail($id);
-        return view('companies.edit', compact('company'));
+        try {
+            $company = Company::findOrFail($id);
+            $departments=$company->department;
+            return view('companies.edit', compact('company', 'departments'));
+        } catch (\Exception $e) {
+            return back()->withError('Error finding company and its departments: ' . $e->getMessage());
+        }
+        
     }
 
     public function update(Request $request, $id)
@@ -91,6 +97,11 @@ class CompanyController extends Controller
 
         return redirect()->route('companies.index')
                          ->with('success', 'Company deleted successfully.');
+    }
+    public function getPeople($id){
+        $company =Company::findOrFail($id);
+        $listPeople=$company->people;
+        return response()->json($listPeople);
     }
 }
 

@@ -18,17 +18,22 @@ return new class extends Migration
             $table->date('birthdate');
             $table->string('phone_number');
             $table->string('address');
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
-           
         });
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
+        Schema::table('people', function (Blueprint $table) {
+            $table->dropForeign(['company_id']); // Drop the foreign key constraint
+            $table->dropColumn('company_id');    // Drop the company_id column
+        });
+
         Schema::dropIfExists('people');
     }
 };
