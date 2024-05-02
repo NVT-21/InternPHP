@@ -53,7 +53,10 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $role = Role::findOrFail($id);
+        
+        // Pass the role data to the view for editing
+        return view('roles.edit', compact('role'));
     }
 
     /**
@@ -61,7 +64,18 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            // Add your validation rules here
+        ]);
+
+        // Find the role with the specified ID
+        $role = Role::findOrFail($id);
+
+        // Update the role with the new data from the request
+        $role->update($request->all());
+
+        // Redirect back to the edit page with a success message
+        return redirect()->route('roles.edit', $role->id)->with('success', 'Role updated successfully');
     }
 
     /**
